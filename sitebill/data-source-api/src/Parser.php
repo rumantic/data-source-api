@@ -131,6 +131,10 @@ abstract class Parser {
 
 
     function main () {
+        if ( $_ENV['token'] && $_ENV['token'] != $_REQUEST['token']) {
+            echo 'bad token';
+            exit;
+        }
         $records = $this->get_not_empty_items();
         foreach ( $records as $item ) {
             $result[] = $this->map_item($item);
