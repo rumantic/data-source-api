@@ -41,10 +41,18 @@ abstract class Parser {
     }
 
     function get_connection () {
-        $MONGO_HOST = getenv('MONGO_HOST') ?: 'not_defined';
-        $MONGO_USER = getenv('MONGO_USER') ?: '';
-        $MONGO_PASS = getenv('MONGO_PASS') ?: '';
-        $MONGO_PORT = getenv('MONGO_PORT') ?: 27017;
+        if ( $_ENV['MONGO_HOST'] ) {
+            $MONGO_HOST = $_ENV['MONGO_HOST'] ?: 'not_defined';
+            $MONGO_USER = $_ENV['MONGO_USER'] ?: '';
+            $MONGO_PASS = $_ENV['MONGO_PASS'] ?: '';
+            $MONGO_PORT = $_ENV['MONGO_PORT'] ?: 27017;
+        } else {
+            $MONGO_HOST = getenv('MONGO_HOST') ?: 'not_defined';
+            $MONGO_USER = getenv('MONGO_USER') ?: '';
+            $MONGO_PASS = getenv('MONGO_PASS') ?: '';
+            $MONGO_PORT = getenv('MONGO_PORT') ?: 27017;
+        }
+
         if ( $MONGO_HOST == 'not_defined' ) {
             $this->error('MONGO_HOST not defined');
             exit;
