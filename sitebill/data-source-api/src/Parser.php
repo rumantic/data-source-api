@@ -118,7 +118,7 @@ abstract class Parser {
                 'product_details' => array('$ne' => null)
             ],
             [
-                'limit' => ($_REQUEST['limit'] ?: 500 ),
+                'limit' => intval($_REQUEST['limit'] ?: 500 ),
                 'sort'  => [ 'product_details.products.datePublished.timestamp' => -1 ],
             ]
 
