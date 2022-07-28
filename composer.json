@@ -1,0 +1,12 @@
+{
+    "require": {
+        "mongodb/mongodb": "1.4.3",
+        "monolog/monolog": "^2.8",
+        "vlucas/phpdotenv": "^5.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sitebill\\DataSourceApi\\": "sitebill/data-source-api/src"
+        }
+    }
+}

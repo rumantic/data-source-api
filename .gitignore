@@ -1,0 +1,4 @@
+.idea
+vendor
+parser.log
+composer.lock
