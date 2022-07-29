@@ -23,6 +23,12 @@ abstract class Parser {
      */
     private $log;
 
+    /**
+     * Mapper
+     * @var array
+     */
+    private $map;
+
     function __construct (  ) {
         $this->log = new Logger('parser');
         $this->log->pushHandler(new StreamHandler(getenv('CRON_LOG') ?: 'parser.log'));
@@ -38,6 +44,7 @@ abstract class Parser {
             echo $e->getMessage();
             exit;
         }
+        $this->map = $this->get_map();
     }
 
     function get_connection () {
@@ -95,10 +102,80 @@ abstract class Parser {
             foreach ( $item['product_details']['products'][0]['attributes'] as $attribute ) {
                 $result[$attribute['slug']] = $attribute['rawValue'];
             }
-
         }
+
+        $result['cat1_id'] = $this->search_match('cat1_id', $result['category']);
+        $result['cat1'] = $this->search_match('cat1', $result['category']);
+        $result['cat2_id'] = $this->search_match('cat2_id', $result['subcategory']);
+        $result['cat2'] = $this->search_match('cat2', $result['subcategory']);
+        if ( isset($result['tip_sdelki']) ) {
+            $result['nedvigimost_type'] = $this->search_match('nedvigimost_type', $result['tip_sdelki']);
+            $result['nedvigimost_type_id'] = $this->search_match('nedvigimost_type_id', $result['tip_sdelki']);
+        } else {
+            $result['nedvigimost_type'] = $this->search_match('nedvigimost_type', $result['subcategory']);
+            $result['nedvigimost_type_id'] = $this->search_match('nedvigimost_type_id', $result['subcategory']);
+        }
+        if ( isset($result['komnat_v_kvartire']) ) {
+            $result['param_1945'] = $this->search_match('param_1945', $result['komnat_v_kvartire']);
+        }
+
         $result['images'] = $this->extract_images($item['product_details']['products'][0]['images']);
         return $result;
+    }
+
+    function get_map () {
+        return [
+            'cat1_id' => [
+                'Недвижимость' => 1,
+            ],
+            'cat1' => [
+                'Недвижимость' => 'Недвижимость',
+            ],
+            'nedvigimost_type' => [
+                'Продажа' => 1,
+                'Аренда' => 2,
+            ],
+            'nedvigimost_type_id' => [
+                'Продажа' => 'Продам',
+                'Аренда' => 'Сдам',
+            ],
+            'cat2_id' => [
+                'квартир' => 2,
+                'комнаты' => 3,
+                'дом' => 4,
+                'участка' => 5,
+                // 'гаражи' => 6, ??
+                'Коммерческая' => 7,
+            ],
+            'cat2' => [
+                'квартир' => 'Квартиры',
+                'комнаты' => 'Комнаты',
+                'дом' => 'Дома, дачи, коттеджи',
+                'участка' => 'Земельные участки',
+                // 'гаражи' => 'Гаражи и машиноместа', ??
+                'Коммерческая' => 'Коммерческая недвижимость',
+            ],
+            'param_1945' => [
+                'Студия' => 'Студия',
+                '1' => '1',
+                '2' => '2',
+                '3' => '3',
+                '4' => '4',
+                '5' => '5',
+                '6' => '6',
+                '7' => '7',
+                '8' => '8',
+                '9' => '9',
+            ],
+        ];
+    }
+
+    function search_match ( $key, $value ) {
+        foreach ( $this->map[$key] as $map_key => $map_value ) {
+            if (preg_match('/'.$map_key.'/', $value)) {
+                return $map_value;
+            }
+        }
     }
 
     function extract_images ( $src_images ) {
