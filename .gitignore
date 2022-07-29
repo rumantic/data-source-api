@@ -2,3 +2,4 @@
 vendor
 parser.log
 composer.lock
+.env
