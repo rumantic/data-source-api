@@ -129,6 +129,7 @@ abstract class Parser {
     }
 
     function get_integer_id ( $item ) {
+        return $item['_id'];
         return substr(preg_replace("/[^0-9]/", "", $item['_id'] ),0, 10 );
     }
 
