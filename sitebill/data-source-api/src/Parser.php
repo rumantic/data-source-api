@@ -111,9 +111,11 @@ abstract class Parser {
         $result['cat2'] = $this->search_match('cat2', $result['subcategory']);
         if ( isset($result['tip_sdelki']) ) {
             $result['nedvigimost_type'] = $this->search_match('nedvigimost_type', $result['tip_sdelki']);
+            $result['param_1943'] = $this->search_match('nedvigimost_type', $result['tip_sdelki']);
             $result['nedvigimost_type_id'] = $this->search_match('nedvigimost_type_id', $result['tip_sdelki']);
         } else {
             $result['nedvigimost_type'] = $this->search_match('nedvigimost_type', $result['subcategory']);
+            $result['param_1943'] = $this->search_match('nedvigimost_type', $result['subcategory']);
             $result['nedvigimost_type_id'] = $this->search_match('nedvigimost_type_id', $result['subcategory']);
         }
         if ( isset($result['komnat_v_kvartire']) ) {
@@ -136,11 +138,11 @@ abstract class Parser {
             'cat1' => [
                 'Недвижимость' => 'Недвижимость',
             ],
-            'nedvigimost_type' => [
+            'nedvigimost_type_id' => [
                 'Продажа' => 1,
                 'Аренда' => 2,
             ],
-            'nedvigimost_type_id' => [
+            'nedvigimost_type' => [
                 'Продажа' => 'Продам',
                 'Аренда' => 'Сдам',
             ],
