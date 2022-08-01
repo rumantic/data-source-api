@@ -227,7 +227,11 @@ abstract class Parser {
             $result[] = $this->map_item($item);
         }
         header('Content-Type: application/json; charset=utf-8');
-        echo json_encode($result);
+        $response = [
+            'code' => 200,
+            'data' => $result
+        ];
+        echo json_encode($response);
         exit();
     }
 
