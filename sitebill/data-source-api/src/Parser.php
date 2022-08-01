@@ -84,6 +84,7 @@ abstract class Parser {
 
     function map_item ($item) {
         $result['_id'] = $item['_id'];
+        $result['id'] = $this->get_integer_id($item);
         $result['url'] = $this->youla_url.$item['product_details']['products'][0]['url'];
         $result['title'] = $item['product_details']['products'][0]['name'];
         $result['time'] = date('Y-m-d H:i:s', $item['product_details']['products'][0]['datePublished']['timestamp']);
@@ -121,6 +122,10 @@ abstract class Parser {
 
         $result['images'] = $this->extract_images($item['product_details']['products'][0]['images']);
         return $result;
+    }
+
+    function get_integer_id ( $item ) {
+        return substr(preg_replace("/[^0-9]/", "", $item['_id'] ),0, 10 );
     }
 
     function get_map () {
