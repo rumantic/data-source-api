@@ -229,6 +229,7 @@ abstract class Parser {
         header('Content-Type: application/json; charset=utf-8');
         $response = [
             'code' => 200,
+            'status' => 'ok',
             'data' => $result
         ];
         echo json_encode($response);
