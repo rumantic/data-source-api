@@ -123,6 +123,23 @@ abstract class Parser {
         if ( isset($result['komnat_v_kvartire']) ) {
             $result['param_1945'] = $this->search_match('param_1945', $result['komnat_v_kvartire']);
         }
+        if ( $result['cat2'] == 'Дома, дачи, коттеджи') {
+            $result['param_3843'] = $result['material_doma'];
+            $result['param_4014'] = $result['realty_ploshad_doma']/10;
+            $result['param_4015'] = $result['realty_ploshad_uchastka']/10;
+            $result['param_7424'] = $result['address'];
+        } else {
+            $result['param_1957'] = $this->search_match('param_1957', $result['realty_building_type']);
+            $result['param_2313'] = $result['realty_obshaya_ploshad']/100;
+            $result['param_12722'] = $result['building_flat_living_area']/100;
+            $result['param_12721'] = $result['realty_ploshad_kuhni']/100;
+            $result['param_2113'] = $result['realty_etaj'];
+            $result['param_2213'] = $result['realty_etajnost_doma'];
+            $result['param_2009'] = $result['material_doma'];
+
+        }
+
+
 
         $result['images'] = $this->extract_images($item['product_details']['products'][0]['images']);
         return $result;
@@ -176,6 +193,9 @@ abstract class Parser {
                 '7' => '7',
                 '8' => '8',
                 '9' => '9',
+            ],
+            'param_1957' => [
+                'Вторичка' => 'Вторичка',
             ],
         ];
     }
