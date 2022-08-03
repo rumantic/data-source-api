@@ -90,6 +90,7 @@ abstract class Parser {
         $result['time'] = date('Y-m-d H:i:s', $item['product_details']['products'][0]['datePublished']['timestamp']);
         $result['price'] = $item['product_details']['products'][0]['price']/100;
         $result['city'] = $item['product_details']['cities'][0]['name'];
+        $result['city1'] = $result['city'];
         $result['address'] = $item['product_details']['products'][0]['location']['description'];
         $result['description'] = $item['product_details']['products'][0]['description'];
         $result['source'] = 'youla.io';
