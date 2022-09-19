@@ -126,6 +126,8 @@ abstract class Parser {
         }
         if ( $result['cat2'] == 'Комнаты') {
             $result['param_2517'] = $this->search_match('nedvigimost_type', $result['nedvigimost_type']);
+            $result['param_2836'] = $result['realty_obshaya_ploshad']/100;
+
         }
 
 
