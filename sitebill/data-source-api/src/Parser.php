@@ -223,7 +223,8 @@ abstract class Parser {
     {
         $result = $this->collection->find(
             [
-                'product_details' => array('$ne' => null)
+                'product_details' => array('$ne' => null),
+                'product_details.cities' => array('$elemMatch' => ['name' => 'Сургут']),
             ],
             [
                 'limit' => intval($_REQUEST['limit'] ?: 500 ),
