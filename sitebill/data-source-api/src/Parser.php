@@ -124,6 +124,11 @@ abstract class Parser {
         if ( isset($result['komnat_v_kvartire']) ) {
             $result['param_1945'] = $this->search_match('param_1945', $result['komnat_v_kvartire']);
         }
+        if ( $result['cat2'] == 'Комнаты') {
+            $result['param_2517'] = $this->search_match('nedvigimost_type', $result['nedvigimost_type']);
+        }
+
+
         if ( $result['cat2'] == 'Дома, дачи, коттеджи') {
             $result['param_3843'] = $result['material_doma'];
             $result['param_4014'] = $result['realty_ploshad_doma']/10;
