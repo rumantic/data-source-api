@@ -129,6 +129,11 @@ abstract class Parser {
             $result['param_2836'] = $result['realty_obshaya_ploshad']/100;
 
         }
+        if ( $result['cat2'] == 'Земельные участки') {
+            $result['param_4195'] = $this->search_match('nedvigimost_type', $result['nedvigimost_type']);
+            $result['param_4616'] =  $result['realty_ploshad_uchastka'];
+            $result['param_4313'] = $this->search_match('param_4313', $result['tip_uchastka']);
+        }
 
 
         if ( $result['cat2'] == 'Дома, дачи, коттеджи') {
@@ -190,6 +195,11 @@ abstract class Parser {
                 'участка' => 'Земельные участки',
                 // 'гаражи' => 'Гаражи и машиноместа', ??
                 'Коммерческая' => 'Коммерческая недвижимость',
+            ],
+            'param_4313' => [
+                'Поселения (ИЖС)' => 'Поселений (ИЖС)',
+                'Сельхоз (СНТ или ДНП)' => 'Сельхозназначения (СНТ, ДНП)',
+                'Промназначения' => 'Промназначения', // ???
             ],
             'param_1945' => [
                 'Студия' => 'Студия',
