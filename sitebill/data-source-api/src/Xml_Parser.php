@@ -24,11 +24,11 @@ class Xml_Parser extends Parser {
         }
     }
 
-    function get_not_empty_items()
+    function get_items($feedKey)
     {
         $result = $this->collection->find(
             [
-                'feedKey' => array('$ne' => null),
+                'feedKey' => array('$eq' => $feedKey),
                 //'product_details.cities' => array('$elemMatch' => ['name' => 'Сургут']),
             ]
         );
@@ -40,13 +40,44 @@ class Xml_Parser extends Parser {
 
 
     function main() {
-        $items = $this->get_not_empty_items();
-        foreach ( $items as $item ) {
-            echo '<pre>';
-            print_r($item);
-            echo '</pre>';
+        if ( $_ENV['token'] && $_ENV['token'] != $_REQUEST['token']) {
+            echo 'bad token';
+            exit;
         }
 
-        echo 'main';
+        $items = $this->get_items($_REQUEST['feedKey']);
+        $ra = array();
+        $log_item = array();
+        $total = 0;
+        $success = 0;
+        $error = 0;
+        foreach ( $items as $item ) {
+            $tmp = [
+                'externalId' => $item['externalId'],
+                'internalId' => $item['internalId'],
+                'internalUrl' => $item['internalUrl'],
+                'success' => $item['success'],
+            ];
+            $total ++;
+            if ($item['success']) {
+                $success ++;
+            } else {
+                $error ++;
+                $tmp['error'] = $item['error'];
+            }
+            $log_item[] = $tmp;
+
+        }
+        if ( isset($item['feedTime']) ) {
+            $ra['date_updated'] = $item['feedTime'];
+        }
+        $ra['total'] = $total;
+        $ra['success'] = $success;
+        $ra['error'] = $error;
+        $ra['logs'] = $log_item;
+
+        header('Content-Type: application/json; charset=utf-8');
+
+        echo json_encode($ra);
     }
 }
