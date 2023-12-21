@@ -59,6 +59,7 @@ abstract class Parser {
             $MONGO_PASS = getenv('MONGO_PASS') ?: '';
             $MONGO_PORT = getenv('MONGO_PORT') ?: 27017;
         }
+        $MONGO_PASS = urlencode($MONGO_PASS);
 
         if ( $MONGO_HOST == 'not_defined' ) {
             $this->error('MONGO_HOST not defined');
