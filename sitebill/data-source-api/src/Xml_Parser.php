@@ -28,7 +28,7 @@ class Xml_Parser extends Parser {
     {
         $result = $this->collection->find(
             [
-                'feedKey' => array('$eq' => $feedKey),
+                'feedKey' => array('$eq' => intval($feedKey)),
                 //'product_details.cities' => array('$elemMatch' => ['name' => 'Сургут']),
             ]
         );
